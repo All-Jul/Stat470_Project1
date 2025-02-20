@@ -2,6 +2,7 @@
 library(viridis)
 library(ggplot2)
 library(GGally)
+library(ggridges)
 ####
 
 #### Custom theme for our visualizations
@@ -118,7 +119,6 @@ ggplot(penguin_counts_island, aes(x = year, y = count, color = island)) +
 ######################
 
 
-
 ###########  9 Number of Penguins Captured Each Year by Species
 penguin_counts_year <- PenguinData %>%
   group_by(year, species) %>%
@@ -134,3 +134,56 @@ ggplot(penguin_counts_year, aes(x = year, y = count, color = species)) +
        color = "Species") +
   custom_theme
 ###############
+
+
+##### 10 Box Plot: Body Mass Over Years
+ggplot(PenguinData, aes(x = factor(year), y = body_mass, fill = factor(year))) +
+  geom_boxplot(alpha = 0.7) +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(title = "Box Plot: Body Mass Over Years",
+       x = "Year",
+       y = "Body Mass (g)",
+       fill = "Year") +
+  custom_theme
+#########
+
+
+###### 11 Species Distribution Over Years
+ggplot(PenguinData, aes(x = factor(year), fill = species)) +
+  geom_bar(position = "stack") +
+  scale_fill_viridis(discrete = TRUE) +
+  labs(title = "Species Distribution Over Years",
+       x = "Year",
+       y = "Count",
+       fill = "Species") +
+  theme_minimal()
+########
+
+############### 12 Pie Chart: Proportion of Species
+species_counts <- PenguinData %>%
+  group_by(species) %>%
+  summarise(count = n())
+
+ggplot(species_counts, aes(x = "", y = count, fill = species)) +
+  geom_bar(stat = "identity", width = 1) +
+  coord_polar("y", start = 0) +  # Convert to pie chart
+  scale_fill_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Pie Chart: Proportion of Species",
+       fill = "Species") +
+  theme_void()  # Remove background and axes
+################
+
+
+
+########### 13 Ridgeline Plot: Body Mass Distribution by Species
+ggplot(PenguinData, aes(x = body_mass, y = species, fill = species)) +
+  geom_density_ridges(alpha = 0.7) +
+  scale_fill_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Ridgeline Plot: Body Mass Distribution by Species",
+       x = "Body Mass (g)",
+       y = "Species",
+       fill = "Species") +
+  theme_minimal()
+###########
+
+
