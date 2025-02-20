@@ -34,7 +34,7 @@ ggpairs(PenguinData[, c("bill_length", "bill_depth", "flipper_length", "body_mas
   custom_theme
 ###########################
 
-#################### 3  Faceted Scatter Plot: Bill Length vs Bill Depth by Island
+################ 3  Faceted Scatter Plot: Bill Length vs Bill Depth by Island
 
 ggplot(PenguinData, aes(x = bill_length, y = bill_depth, color = species)) +
   geom_point(size = 2, alpha = 0.8) +
