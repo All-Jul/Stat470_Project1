@@ -7,3 +7,12 @@ PenguinData <- subset(read_excel(path_to_file, skip = 5) %>% filter(row_number()
 PenguinData <- subset(PenguinData, select = -c(life_stage))
 PenguinData$species <- revalue(PenguinData$species, c('adelie'= 'Adelie'))
 PenguinData
+
+
+
+
+
+
+
+
+
