@@ -3,6 +3,8 @@ library(viridis)
 library(ggplot2)
 library(GGally)
 library(ggridges)
+library(ggExtra)
+
 ####
 
 #### Custom theme for our visualizations
@@ -187,3 +189,72 @@ ggplot(PenguinData, aes(x = body_mass, y = species, fill = species)) +
 ###########
 
 
+############### 14 2D Density Plot with Contour Lines
+ggplot(PenguinData, aes(x = flipper_length, y = body_mass)) +
+  geom_density_2d_filled(aes(fill = after_stat(level)), alpha = 0.8) +  # Density fill
+  geom_density_2d(color = "black", size = 0.5) +  # Contour lines
+  scale_fill_viridis(discrete = TRUE, option = "plasma") +  # Pretty color scale
+  labs(title = "2D Density Plot: Body Mass vs Flipper Length",
+       subtitle = "Density of Penguins by Body Mass and Flipper Length",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       fill = "Density") +
+  theme_minimal() 
+###################
+
+
+################## 15 Stacked Bar Plot: Sex Distribution by Island
+ggplot(PenguinData, aes(x = island, fill = sex)) +
+  geom_bar(position = "stack", alpha = 0.8) +
+  scale_fill_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Stacked Bar Plot: Sex Distribution by Island",
+       x = "Island",
+       y = "Count",
+       fill = "Sex") +
+  theme_minimal()
+
+###################
+
+
+
+#################### 16 Scatter plot with marginal histograms
+p <- ggplot(PenguinData, aes(x = flipper_length, y = body_mass, color = species)) +
+  geom_point(size = 2, alpha = 0.7) +
+  scale_color_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Scatter Plot with Marginal Histograms: Body Mass vs Flipper Length",
+       x = "Flipper Length (mm)",
+       y = "Body Mass (g)",
+       color = "Species") +
+  theme_minimal()
+
+ggMarginal(p, type = "histogram", fill = "slateblue", alpha = 0.7)  # Add marginal histograms
+#######################
+
+################ 17 Bill Length by Species
+ggplot(PenguinData, aes(x = species, y = bill_length, fill = species)) +
+  geom_violin(alpha = 0.7) +  # Violin plot
+  geom_boxplot(width = 0.2, alpha = 0.8) +  # Box plot overlay
+  scale_fill_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Violin Plot with Box Plot: Bill Length by Species",
+       x = "Species",
+       y = "Bill Length (mm)",
+       fill = "Species") +
+  theme_minimal()
+##################
+
+############## 18 Stacked area chart
+
+species_year_counts <- PenguinData %>%
+  group_by(year, species) %>%
+  summarise(count = n(), .groups = 'drop')
+
+# Create the stacked area chart
+ggplot(species_year_counts, aes(x = year, y = count, fill = species)) +
+  geom_area(alpha = 0.8) +  # Stacked area
+  scale_fill_viridis(discrete = TRUE) +  # Pretty color scale
+  labs(title = "Stacked Area Chart: Species Distribution Over Time",
+       x = "Year",
+       y = "Number of Penguins",
+       fill = "Species") +
+  theme_minimal()
+##################
